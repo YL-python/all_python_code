@@ -18,5 +18,5 @@ x-requested-with: XMLHttpRequest
 '''
 pattern = '^(.*?): (.*?)$'
 
-for line in head_post.splitlines():   # \\konachan_spider \\wallhaven_spider 是反向引用
-    print(re.sub(pattern,'\'\\konachan_spider\': \'\\wallhaven_spider\',',line))
+for line in head_post.splitlines():   # \\1  \\2 是反向引用
+    print(re.sub(pattern,'\'\\1\': \'\\2\',',line))

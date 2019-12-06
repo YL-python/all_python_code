@@ -5,13 +5,13 @@ import requests
 from lxml import etree
 import os
 
-topRangeList = ["1d", "3d", "1M", "6M", "1y", "1w"]
+topRangeList = ["1d", "3d", "1M", "6M","3M", "1y", "1w"]
 sortingList = ["toplist", "favorites", "views"]
-IMG_SEAVE_PATH = 'F:\\图片\\wallhaven_img\\'
+IMG_SEAVE_PATH = 'F:\\图片\\day\\'
 # IMG_SEAVE_PATH = 'E:\\wallhaven_img\\SFW\\'
-MAIN_URL = 'https://wallhaven.cc/search?categories=010&purity=100&atleast=1920x1080&topRange=abcd&sorting=efgh&order=desc&page={}'
+MAIN_URL = 'https://wallhaven.cc/search?categories=010&purity=100&topRange=abcd&sorting=efgh&order=desc&page={}'
 HEADERS = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3724.8 Safari/537.36'}
-MAX_PAGE = 10
+MAX_PAGE = 3
 
 
 def exist_file(name):
@@ -41,7 +41,7 @@ def main():
     for sorting in sortingList:
         for topRange in topRangeList:
             url = MAIN_URL.replace('abcd',topRange).replace('efgh',sorting)
-            for page_num in range(1,MAX_PAGE):
+            for page_num in range(1,MAX_PAGE+1):
                 print("正在爬取第{}页".format(page_num).center(50,"-"))
                 try:
                     result = my_requests(url.format(page_num)).decode("utf-8")
@@ -64,6 +64,7 @@ def main():
                                 print("\n"+img_url+"获取失败")
                     print("\n第{}页获取完毕,本次获取{}张图片,一共有{}张图片".format(page_num, IMG_NUM, len(os.listdir(IMG_SEAVE_PATH))))
                 except:
+                    print(url.format(page_num))
                     print("主页面出现异常本次爬取结束，一共爬取{}张图片".format(IMG_NUM))
             print(topRange+"以内排序规则为"+sorting+"的前{}页壁纸爬取完毕".format(MAX_PAGE))
     print("爬完啦")
