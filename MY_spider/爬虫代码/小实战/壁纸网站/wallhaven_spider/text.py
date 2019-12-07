@@ -27,14 +27,17 @@ r = requests.get(url,headers = head).content.decode('utf-8')
 
 data_x = etree.HTML(r)
 data = data_x.xpath('//section[@class="thumb-listing-page"]/ul/li/figure/@data-wallpaper-id')
+print(data)
 # img_name = [i+'.jpg' for i in data]
-img_url = ["https://w.wallhaven.cc/full/{}/wallhaven-{}.jpg".format(i[0:wallhaven_spider],i) for i in data]
+# img_url = ["https://w.wallhaven.cc/full/{}/wallhaven-{}.jpg".format(i[0:wallhaven_spider],i) for i in data]
 
 
-print(img_url)
+# print(img_url)
 
 
 MAIN_URL = 'https://wallhaven.cc/search?categories=010&purity=100&atleast=1920x1080&topRange=abcd&sorting=efgh&order=desc&page={}'
 a = MAIN_URL.replace("abcd","qwe")
 
 print(a)
+
+# print("111".replace("1","2"))
