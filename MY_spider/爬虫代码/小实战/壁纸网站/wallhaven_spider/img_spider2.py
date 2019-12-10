@@ -1,5 +1,6 @@
 import requests
 import time
+import json
 import os
 from lxml import etree
 
@@ -64,6 +65,34 @@ def request_img(dir, name):
         print("爬取失败：" + url)
         print("错误原因是：", e)
 
+def write_msg(data):
+    with open(os.path.join(IMG_SEAVE_PATH,DAY,"message.txt"),"w")as f:
+        f.write(json.dumps(data, sort_keys=True, indent=4, separators=(',', ':'),ensure_ascii=False))
+
+
+def get_msg():
+    file_path = os.path.join(IMG_SEAVE_PATH,DAY)
+    sortingList = os.listdir(file_path)
+    all_msg = []
+    for sorting in sortingList:
+        msg = {}
+        msg[sorting[3:]] = {}
+        sorting_path = os.path.join(file_path,sorting)
+        if os.path.isdir(sorting_path):
+            topRangeList = os.listdir(sorting_path)
+            s_t_size = 0
+            for topRange in topRangeList:
+
+                s_t_path = os.path.join(sorting_path,topRange)
+                if os.path.isdir(s_t_path):
+                    files = os.listdir(s_t_path)
+                    size = sum([os.path.getsize(os.path.join(s_t_path,file)) for file in files])
+                    s_t_size += size
+                    msg[sorting[3:]][topRange[3:]] = "图片数量：" + str(len(files))
+            msg[sorting[3:]]["文件夹大小"] = "{:.2f}M".format(s_t_size/1024/1024)
+        all_msg.append(msg)
+    write_msg(all_msg)
+
 
 def main():
     for sorting in sortingList:
@@ -83,6 +112,7 @@ def main():
                         if not exist_file(IMG_SEAVE_PATH, name):
                             print("正在爬取" + name)
                             request_img(dir, name)
+    get_msg()
 
 
 if __name__ == '__main__':
