@@ -61,13 +61,13 @@ def main():
                 path = os.path.join(Save_path, title_list[i])
                 os.makedirs(path)
             except Exception as e:
-                print(e)
+                print("创建"+path+"出问题了")
+                continue
             response = myGet(url_list[i]).decode("utf-8")
             img_list = etree.HTML(response).xpath(XpathImg)
             for img in img_list:
                 if findFile(Save_path,img.split("/")[-1]):
-                    # print("文件存在："+img)
-                    pass
+                    print("文件存在："+img)
                 else:
                     print("正在下载：" + img)
                     save_img(img, path)
