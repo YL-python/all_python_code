@@ -58,7 +58,7 @@ def main(key):
                 try:
                     save_img(img_url,Seave_path+img_name)
                 except:
-                    print("下载图片失败："+img_name)
+                    print("下载图片失败："+img_url)
 
 
 if __name__ == '__main__':

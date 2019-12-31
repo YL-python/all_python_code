@@ -6,8 +6,9 @@ from lxml import etree
 url_head = 'https://www.wallpapermaiden.com'
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3724.8 Safari/537.36'}
 Xpath_list = '//div[@class="wallpaperBg"]/a/div/img/@src'
-max_page = 10
-
+max_page = 30
+# tags = 'ratings'
+tags = "views"
 
 def save_img(img,name):
     img_data = myGet(img)
@@ -31,10 +32,9 @@ def myGet(url):
     return requests.get(url, headers=headers,timeout=3).content
 
 
-def main(key):
-    url = 'https://www.wallpapermaiden.com/search?term=SSSS&page=XXX'.replace("SSSS",key)
-    Seave_path = os.path.join('F:\\图片\\wallpapermaiden', key, "")
-    # print(url,Seave_path)
+def main():
+    url = 'https://www.wallpapermaiden.com/category/anime/{}?page=XXX'.format(tags)
+    Seave_path = os.path.join('F:\\图片\\wallpapermaiden', "anime", tags, "")
     try:
         os.makedirs(Seave_path)
     except:
@@ -58,12 +58,8 @@ def main(key):
                 try:
                     save_img(img_url,Seave_path+img_name)
                 except:
-                    print("下载图片失败："+img_name)
+                    print("下载图片失败："+img_url)
 
 
 if __name__ == '__main__':
-    # anime girl
-    # search = input("搜索：").replace(" ","+")
-    search = 'hatsune miku'.replace(" ","+")
-    print(search)
-    main(search)
+    main()

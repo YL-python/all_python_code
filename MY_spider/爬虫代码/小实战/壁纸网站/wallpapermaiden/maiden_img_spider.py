@@ -60,7 +60,7 @@ def main():
                 try:
                     save_img(img_url,img_name)
                 except:
-                    print("下载图片失败："+img_name)
+                    print("下载图片失败："+img_url)
 
 
 if __name__ == '__main__':
