@@ -1,14 +1,21 @@
+# 网站分类爬虫  有  最新的，查看数 ，评分和下载四大类
+
 import os
 import requests
+import time
 from lxml import etree
 
 
 url_head = 'https://www.wallpapermaiden.com'
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3724.8 Safari/537.36'}
+DAY = time.strftime("%Y-%m-%d", time.localtime())
 Xpath_list = '//div[@class="wallpaperBg"]/a/div/img/@src'
-max_page = 30
-# tags = 'ratings'
-tags = "views"
+max_page = 15
+categoryList = ["anime"]
+tagList = ["latests", "views", "ratings", "downloads"]
+
+category = categoryList[0]
+tag = tagList[1]
 
 def save_img(img,name):
     img_data = myGet(img)
@@ -33,8 +40,9 @@ def myGet(url):
 
 
 def main():
-    url = 'https://www.wallpapermaiden.com/category/anime/{}?page=XXX'.format(tags)
-    Seave_path = os.path.join('F:\\图片\\wallpapermaiden', "anime", tags, "")
+    url = 'https://www.wallpapermaiden.com/category/{}/{}?page=XXX'.format(category,tag)
+    Seave_path = os.path.join('F:\\图片\\wallpapermaiden',"category", category, tag, DAY, "")
+    find_path = os.path.join('F:\\图片\\wallpapermaiden',"category", "")
     try:
         os.makedirs(Seave_path)
     except:
@@ -51,7 +59,7 @@ def main():
         for img_xinxi in img_list:
             img_url = url_head+img_xinxi.replace("-thumb","")
             img_name = img_url.split("/")[-1]
-            if findFile(Seave_path,img_name):
+            if findFile(find_path,img_name):
                 print("图片存在了："+img_name)
             else:
                 print("正在下载：" + img_name)

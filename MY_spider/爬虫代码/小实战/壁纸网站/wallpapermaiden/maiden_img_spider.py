@@ -1,17 +1,22 @@
+# 主页面爬虫  有  查看数 ，评分和下载三大类
+
 import os
 import requests
+import time
 from lxml import etree
 
-url = 'https://www.wallpapermaiden.com/popular/views?page=XXX'
-Seave_path = os.path.join('F:\\图片\\wallpapermaiden','popular','views',"")
 
-# url = 'https://www.wallpapermaiden.com/popular/rating?page=XXX'
-# Seave_path = os.path.join('F:\\图片\\wallpapermaiden','popular','rating',"")
-
+url = 'https://www.wallpapermaiden.com/popular/{}?page=XXX'
 url_head = 'https://www.wallpapermaiden.com'
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3724.8 Safari/537.36'}
 Xpath_list = '//div[@class="wallpaperBg"]/a/div/img/@src'
-max_page = 30
+max_page = 15
+DAY = time.strftime("%Y-%m-%d", time.localtime())
+tagList = ["views", "ratings", "downloads"]
+tag = tagList[0]
+url = url.format(tag)
+Seave_path = os.path.join('F:\\图片\\wallpapermaiden','popular',tag,"")
+find_path = os.path.join('F:\\图片\\wallpapermaiden','popular',"")
 
 
 def save_img(img,name):
